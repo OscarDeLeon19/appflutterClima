@@ -14,14 +14,7 @@ class SuelosPage extends StatelessWidget {
         future: futureClima, // Usa futureClima aquí
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/suelo.png'), // Ruta de la imagen de fondo
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Column(
+            return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
@@ -35,8 +28,7 @@ class SuelosPage extends StatelessWidget {
                   HumedadSueloCard(data: double.parse(snapshot.data!.suelo2), index: 2),
                   HumedadSueloCard(data: double.parse(snapshot.data!.suelo3), index: 3),
                 ],
-              ),
-            );
+              );
           }  else if (snapshot.hasError) {
             print(snapshot.error);
             return Text('${snapshot.error}');

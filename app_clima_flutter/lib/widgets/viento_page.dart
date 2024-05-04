@@ -52,13 +52,6 @@ class InfoViento extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              child: Image.asset(
-                'lib/assets/banner_viento.jpg', // Ruta de la imagen del banner de viento
-                width: 100,
-              ),
-            ),
             Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
