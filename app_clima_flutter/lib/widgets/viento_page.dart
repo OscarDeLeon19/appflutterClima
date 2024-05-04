@@ -22,8 +22,8 @@ class HomePageViento extends StatelessWidget {
             final direccion = snapshot.data!.direcion;
             final velocidad = snapshot.data!.velocidad;
             
-            // Muestra la página WindInfoPage directamente
-            return WindInfoPage(
+            // Muestra la página InfoViento directamente
+            return InfoViento(
               direccion: direccion,
               velocidad: velocidad,
             );
@@ -39,12 +39,12 @@ class HomePageViento extends StatelessWidget {
   }
 }
 
-class WindInfoPage extends StatelessWidget {
+class InfoViento extends StatelessWidget {
   final String direccion; // Grados de dirección del viento
   final String velocidad; // Velocidad del viento en km/h
 
   String img =  'lib/assets/banner_viento.jpg';
-  WindInfoPage({required this.direccion, required this.velocidad});
+  InfoViento({required this.direccion, required this.velocidad});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class WindInfoPage extends StatelessWidget {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
-            WindDirectionIndicator(direccion: double.parse(direccion)),
+            WidgetBrujula(direccion: double.parse(direccion)),
             SizedBox(height: 20),
             // Etiqueta para mostrar la velocidad del viento
             Text('Velocidad del viento: $velocidad km/h'),
@@ -76,10 +76,10 @@ class WindInfoPage extends StatelessWidget {
   }
 }
 
-class WindDirectionIndicator extends StatelessWidget {
+class WidgetBrujula extends StatelessWidget {
   final double direccion;
 
-  WindDirectionIndicator({required this.direccion});
+  WidgetBrujula({required this.direccion});
 
   @override
   Widget build(BuildContext context) {
