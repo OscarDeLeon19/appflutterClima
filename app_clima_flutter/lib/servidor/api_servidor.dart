@@ -4,7 +4,6 @@ import 'dart:html';
 import 'package:http/http.dart' as http;
 
 Future<Clima> fetchClima() async {
-
   
   final response = await http.get(
       Uri.parse('https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/Cunoc'),
