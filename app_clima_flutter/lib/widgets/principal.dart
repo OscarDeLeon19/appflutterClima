@@ -38,12 +38,12 @@ class _MenuPageState extends State<MenuPage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info),
+            icon: Icon(Icons.air),
             label: 'Viento',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.contact_phone),
-            label: 'Contact',
+            icon: Icon(Icons.wb_sunny),
+            label: 'Clima',
           ),
         ],
         currentIndex: _selectedIndex,

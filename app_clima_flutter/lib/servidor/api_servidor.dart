@@ -45,7 +45,7 @@ class Clima {
       required this.precipitacion});
 
   factory Clima.fromJson(dynamic json) {
-    final data = json[0];
+    final data = json;
     return Clima(
       fechahora: data['fechahora'],
       temperatura: data['temperatura'],
@@ -54,7 +54,7 @@ class Clima {
       suelo1: data['suelo1'],
       suelo2: data['suelo2'],
       suelo3: data['suelo3'],
-      direcion: data['direcion'],
+      direcion: data['direccion'],
       velocidad: data['velocidad'],
       precipitacion: data['precipitacion'],
     );
