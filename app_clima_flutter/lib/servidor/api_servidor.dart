@@ -12,7 +12,8 @@ Future<Clima> fetchClima() async {
       });
 
   if (response.statusCode == 200) {
-    return Clima.fromJson(jsonDecode(response.body) as dynamic);
+    return Clima.fromJson(jsonDecode(response.body) as dynamic,
+        'https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/Cunoc');
   } else {
     throw Exception('Failed to load Cat Fact');
   }
@@ -29,6 +30,7 @@ class Clima {
   final String direcion;
   final String velocidad;
   final String precipitacion;
+  final String url;
 
   const Clima(
       {required this.fechahora,
@@ -40,9 +42,10 @@ class Clima {
       required this.suelo3,
       required this.direcion,
       required this.velocidad,
-      required this.precipitacion});
+      required this.precipitacion,
+      required this.url});
 
-  factory Clima.fromJson(dynamic json) {
+  factory Clima.fromJson(dynamic json, String url) {
     final data = json;
     return Clima(
       fechahora: data['fechahora'],
@@ -55,6 +58,7 @@ class Clima {
       direcion: data['direccion'],
       velocidad: data['velocidad'],
       precipitacion: data['precipitacion'],
+      url: url,
     );
   }
 }
