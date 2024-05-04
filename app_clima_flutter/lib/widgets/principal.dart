@@ -1,3 +1,5 @@
+import 'package:app_clima_flutter/widgets/clima_page.dart';
+import 'package:app_clima_flutter/widgets/suelos_page.dart';
 import 'package:app_clima_flutter/widgets/viento_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_clima_flutter/widgets/home_page.dart'; // Importa HomePageClima
@@ -45,6 +47,10 @@ class _MenuPageState extends State<MenuPage> {
             icon: Icon(Icons.wb_sunny),
             label: 'Clima',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.grass),
+            label: 'Suelos',
+          )
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
@@ -59,6 +65,10 @@ class _MenuPageState extends State<MenuPage> {
         return HomePageClima(futureClima: futureClima); // Pasa futureClima a HomePageClima
       case 1:
         return HomePageViento(futureClima: futureClima); // Pasa futureClima a HomePageClima
+      case 2:
+        return ClimaPage(futureClima: futureClima); // Pasa futureClima a HomePageClima
+      case 3:
+        return SuelosPage(futureClima: futureClima); // Pasa futureClima a HomePageClima
       default:
         return Container(); // Para las otras opciones del menú
     }
