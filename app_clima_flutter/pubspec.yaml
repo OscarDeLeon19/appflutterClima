@@ -64,9 +64,20 @@ flutter:
     - assets/weather-sunny.json
     - assets/weather-rainy.json
     - assets/weather-cloudy.json
+    - assets/dia-conAire.json
+    - assets/dia-lluviafuerte.json
+    - assets/dia-pocalluvia.json
+    - assets/dia-sol.json
+    - assets/frio.json
+    - assets/noche-conAire.json
+    - assets/noche-lluviafuerte.json
+    - assets/noche-pocalluvia.json
+    - assets/nublado.json
+    - assets/pocalluvia.json
     - assets/Temperatura_calor.png
     - assets/Temperatura_fria.png
     - assets/Humedad.png
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

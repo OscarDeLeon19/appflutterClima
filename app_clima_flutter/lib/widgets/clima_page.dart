@@ -1,25 +1,31 @@
 import 'dart:ui' show Brightness, FontWeight, ImageFilter;
-import 'package:app_clima_flutter/bloc/clima_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:app_clima_flutter/bloc/clima_bloc.dart';
+import 'package:app_clima_flutter/bloc/clima_event.dart';
 import 'package:app_clima_flutter/bloc/clima_state.dart';
-import 'package:app_clima_flutter/servidor/api_servidor.dart'
-    as servidor; // Uso de alias para evitar conflictos
+import 'package:app_clima_flutter/servidor/api_servidor.dart' as servidor;
 import 'package:lottie/lottie.dart';
 
 class ClimaPage extends StatelessWidget {
-  final Future<servidor.Clima> futureClima; // Uso del alias para Clima
+  final Future<servidor.Clima> futureClima;
 
   const ClimaPage({Key? key, required this.futureClima}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Determinar si es de día o de noche
+    bool isDayTime = DateTime.now().hour >= 6 && DateTime.now().hour < 20;
+    Color backgroundColor = isDayTime
+        ? const Color.fromARGB(255, 95, 202, 252) // Color claro para el día
+        : Color.fromARGB(255, 7, 0, 19); // Color oscuro para la noche
+
     return BlocProvider(
       create: (_) => ClimaBloc(futureClima)..add(FetchClima()),
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 109, 70, 146),
+        backgroundColor: backgroundColor,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -29,14 +35,12 @@ class ClimaPage extends StatelessWidget {
         ),
         body: BlocBuilder<ClimaBloc, ClimaState>(
           builder: (context, state) {
-            String animationPath = 'assets/weather-sunny.json'; // Default asset
             if (state is ClimaLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is ClimaLoaded) {
-              animationPath = _getAnimationPath(state.clima);
               return Stack(
                 children: [
-                  _buildBackground(animationPath),
+                  _buildBackground(_getAnimationPath(state.clima)),
                   _buildWeatherDetails(context, state.clima),
                 ],
               );
@@ -47,6 +51,64 @@ class ClimaPage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildWeatherDetails(BuildContext context, servidor.Clima clima) {
+    double temp = double.tryParse(clima.temperatura) ?? 0;
+    String formattedTemp =
+        temp.toStringAsFixed(2); // Formatea la temperatura a dos decimales
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.location_on, color: Color.fromARGB(255, 255, 255, 255)),
+            SizedBox(width: 5), // Espacio entre icono y texto
+            Text('CUNOC',
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+        Lottie.asset(
+          _getAnimationPath(clima),
+          width: 300,
+          height: 300,
+          fit: BoxFit.fill,
+        ),
+        const SizedBox(height: 20),
+        Text('$formattedTemp°C', // Muestra la temperatura formateada
+            style: TextStyle(
+                fontSize: 48,
+                color: Colors.white,
+                fontWeight: FontWeight.bold)),
+        Text(DateFormat('EEEE dd MMMM yyyy, HH:mm').format(DateTime.now()),
+            style: TextStyle(fontSize: 16, color: Colors.white)),
+        Spacer(),
+        Divider(color: Colors.white30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildWeatherInfo('Humedad', '${clima.humedad}%', Icons.water_drop),
+            _buildWeatherInfo(
+                'Radiación', '${clima.radiacion}', Icons.wb_sunny),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildWeatherInfo(
+                'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
+            _buildWeatherInfo(
+                'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
+          ],
+        ),
+      ],
     );
   }
 
@@ -65,71 +127,35 @@ class ClimaPage extends StatelessWidget {
     );
   }
 
-  Widget _buildWeatherDetails(BuildContext context, servidor.Clima clima) {
-    String animationPath = _getAnimationPath(clima);
-    // Determine qué ícono mostrar para la temperatura
-    String tempIconPath = (double.tryParse(clima.temperatura) ?? 0) >= 25
-        ? 'assets/Temperatura_calor.png'
-        : 'assets/Temperatura_fria.png';
-
+  Widget _buildWeatherInfo(String title, String value, IconData icon) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Lottie.asset(
-          animationPath,
-          width: 150,
-          height: 150,
-          fit: BoxFit.fill,
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(tempIconPath,
-                width: 30, height: 30), // Ícono de temperatura
-            const SizedBox(width: 10),
-            Text(
-              'Temperatura: ${clima.temperatura}°C',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/Humedad.png',
-                width: 30, height: 30), // Ícono de humedad
-            const SizedBox(width: 10),
-            Text(
-              'Humedad: ${clima.humedad}%',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal),
-            ),
-          ],
-        ),
-        Text(
-          'Radiación: ${clima.radiacion}',
-          style: const TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.normal),
-        ),
+        Icon(icon, color: Colors.white, size: 20),
+        SizedBox(height: 4),
+        Text(title, style: TextStyle(color: Colors.white, fontSize: 14)),
+        Text(value,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold)),
       ],
     );
   }
 
   String _getAnimationPath(servidor.Clima clima) {
     double temp = double.tryParse(clima.temperatura) ?? 0;
-    double precipitacion = double.tryParse(clima.precipitacion) ?? 0;
-    if (temp > 25) {
-      return 'assets/weather-sunny.json';
+    return temp > 25 ? 'assets/dia-sol.json' : 'assets/weather-cloudy.json';
+  }
+
+  String determineLocation(String url) {
+    if (url.endsWith('Cunoc')) {
+      return 'Cunoc';
+    } else if (url.endsWith('Cantel')) {
+      return 'Cantel';
+    } else if (url.endsWith('Conce')) {
+      return 'Concepción';
     } else {
-      return 'assets/weather-cloudy.json';
+      return 'Desconocida';
     }
   }
 }
