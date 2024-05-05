@@ -20,7 +20,7 @@ class ClimaPage extends StatelessWidget {
     bool isDayTime = DateTime.now().hour >= 6 && DateTime.now().hour < 20;
     Color backgroundColor = isDayTime
         ? const Color.fromARGB(255, 95, 202, 252) // Color claro para el día
-        : Color.fromARGB(255, 109, 70, 146); // Color oscuro para la noche
+        : Color.fromARGB(255, 7, 0, 19); // Color oscuro para la noche
 
     return BlocProvider(
       create: (_) => ClimaBloc(futureClima)..add(FetchClima()),
