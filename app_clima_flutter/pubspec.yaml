@@ -74,9 +74,13 @@ flutter:
     - assets/noche-pocalluvia.json
     - assets/nublado.json
     - assets/pocalluvia.json
+    - assets/tierra.json
     - assets/Temperatura_calor.png
     - assets/Temperatura_fria.png
     - assets/Humedad.png
+    - assets/cielo.json
+    - assets/tierra.png
+
 
 
   # The following line ensures that the Material Icons font is
