@@ -143,8 +143,50 @@ class ClimaPage extends StatelessWidget {
   }
 
   String _getAnimationPath(servidor.Clima clima) {
-    double temp = double.tryParse(clima.temperatura) ?? 0;
-    return temp > 25 ? 'assets/dia-sol.json' : 'assets/weather-cloudy.json';
+    String climaJson = "";
+    // Convertir la cadena de hora en un objeto DateTime
+    DateTime horaDateTime = DateTime.parse(clima.fechahora);
+
+    // Definir el rango de horas permitido
+    DateTime horaInicio = DateTime(horaDateTime.year, horaDateTime.month,
+        horaDateTime.day, 6, 0); // 6:00 am
+    DateTime horaFin = DateTime(horaDateTime.year, horaDateTime.month,
+        horaDateTime.day, 19, 0); // 7:00 pm
+
+    // Verificar si la hora está dentro del rango
+    if (horaDateTime.isAfter(horaInicio) && horaDateTime.isBefore(horaFin)) {
+      if (double.parse(clima.radiacion) > 70.0) {
+        if (double.parse(clima.velocidad) > 0.40) {
+          climaJson = "assets/dia-conAire.json";
+        } else {
+          climaJson = "assets/dia-sol.json";
+        }
+      } else {
+        if (double.parse(clima.precipitacion) > 25.0 &&
+            double.parse(clima.precipitacion) < 70.0) {
+          climaJson = "assets/dia-pocalluvia.json";
+        } else if (double.parse(clima.precipitacion) > 70.0) {
+          climaJson = "assets/dia-lluviafuerte.json";
+        } else {
+          climaJson = "assets/nublado.json";
+        }
+      }
+    } else {
+      if (double.parse(clima.precipitacion) > 25.0 &&
+          double.parse(clima.precipitacion) < 70.0) {
+        climaJson = "assets/noche-pocalluvia.json";
+      } else if (double.parse(clima.precipitacion) > 70.0) {
+        climaJson = "assets/noche-lluviafuerte.json";
+      } else {
+        if (double.parse(clima.velocidad) > 0.40) {
+          climaJson = "assets/noche-conAire.json";
+        } else {
+          climaJson = "assets/noche-normal.json";
+        }
+      }
+    }
+
+    return climaJson;
   }
 
   String determineLocation(String url) {
