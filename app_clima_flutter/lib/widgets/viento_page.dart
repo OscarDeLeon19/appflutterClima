@@ -1,7 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../servidor/api_servidor.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Importación correcta
 
 class HomePageViento extends StatelessWidget {
   final Future<Clima> futureClima;
@@ -10,125 +12,123 @@ class HomePageViento extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<Clima>(
-        future: futureClima,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            // Obtiene los datos de dirección y velocidad del viento
-            final direccion = snapshot.data!.direcion;
-            final velocidad = snapshot.data!.velocidad;
-            
-            // Muestra la página WindInfoPage directamente
-            return WindInfoPage(
-              direccion: direccion,
-              velocidad: velocidad,
-            );
-          } else if (snapshot.hasError) {
-            print(snapshot.error);
-            return Text('${snapshot.error}');
-          }
-
-          return CircularProgressIndicator();
-        },
+    return Scaffold(
+      body: Stack(
+        children: [
+          BlurHash(
+              hash: 'LpDL4tkCj[ofL4f6jZaeh}j[oefj'), // BlurHash para el fondo
+          _buildWeatherInfo(context),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.1,
+            left: 0,
+            right: 0,
+            child: FutureBuilder<Clima>(
+              future: futureClima,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return WindInfoPage(
+                    direccion: snapshot.data!.direcion,
+                    velocidad: snapshot.data!.velocidad,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}',
+                      style: TextStyle(color: Colors.white));
+                }
+                return CircularProgressIndicator();
+              },
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildWeatherInfo(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Lottie.asset('assets/aire.json', width: 300, height: 300),
     );
   }
 }
 
 class WindInfoPage extends StatelessWidget {
-  final String direccion; // Grados de dirección del viento
-  final String velocidad; // Velocidad del viento en km/h
+  final String direccion;
+  final String velocidad;
 
-  WindInfoPage({required this.direccion, required this.velocidad});
+  const WindInfoPage(
+      {Key? key, required this.direccion, required this.velocidad})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Widget personalizado para mostrar la dirección del viento
-            WindDirectionIndicator(direccion: double.parse(direccion)),
-            SizedBox(height: 20),
-            // Etiqueta para mostrar la velocidad del viento
-            Text('Velocidad del viento: $velocidad km/h'),
-          ],
-        ),
-      );
+    return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.8),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Datos del viento',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildWeatherIconData(FontAwesomeIcons.wind, '$velocidad km/h'),
+              WindDirectionIndicator(direccion: double.parse(direccion)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWeatherIconData(IconData icon, String data) {
+    return Column(
+      children: [
+        Icon(icon, size: 24, color: Colors.blue),
+        SizedBox(height: 8),
+        Text(data, style: TextStyle(fontSize: 16)),
+      ],
+    );
   }
 }
 
 class WindDirectionIndicator extends StatelessWidget {
   final double direccion;
 
-  WindDirectionIndicator({required this.direccion});
+  const WindDirectionIndicator({Key? key, required this.direccion})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double rotationAngle = direccion * (pi / 180);
-
-    String direccionTexto = '';
-    if (direccion >= 337.5 || direccion < 22.5) {
-      direccionTexto = 'Norte';
-    } else if (direccion >= 22.5 && direccion < 67.5) {
-      direccionTexto = 'Noreste';
-    } else if (direccion >= 67.5 && direccion < 112.5) {
-      direccionTexto = 'Este';
-    } else if (direccion >= 112.5 && direccion < 157.5) {
-      direccionTexto = 'Sureste';
-    } else if (direccion >= 157.5 && direccion < 202.5) {
-      direccionTexto = 'Sur';
-    } else if (direccion >= 202.5 && direccion < 247.5) {
-      direccionTexto = 'Suroeste';
-    } else if (direccion >= 247.5 && direccion < 292.5) {
-      direccionTexto = 'Oeste';
-    } else if (direccion >= 292.5 && direccion < 337.5) {
-      direccionTexto = 'Noroeste';
-    }
-
-    return Column(
-      children: [
-        Text('Direccion: $direccionTexto'), // Muestra la dirección cardinal
-        SizedBox(height: 10),
-        Container(
-          width: 150,
-          height: 150,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.lightBlue[100],
-          ),
-          child: Transform.rotate(
+    return Container(
+      width: 100,
+      height: 100,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Transform.rotate(
             angle: rotationAngle,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Icon(
-                  Icons.arrow_forward,
-                  size: 100,
-                  color: Colors.blue,
-                ),
-                Positioned(
-                  top: 0,
-                  child: Text('N'),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: Text('S'),
-                ),
-                Positioned(
-                  left: 0,
-                  child: Text('W'),
-                ),
-                Positioned(
-                  right: 0,
-                  child: Text('E'),
-                ),
-              ],
-            ),
+            child: Icon(FontAwesomeIcons.locationArrow,
+                size: 48,
+                color: Colors.red), // Asegurando el uso del ícono correcto
           ),
-        ),
-      ],
+          Positioned(
+              top: 2, child: Text('N', style: TextStyle(color: Colors.black))),
+          Positioned(
+              bottom: 2,
+              child: Text('S', style: TextStyle(color: Colors.black))),
+          Positioned(
+              left: 2, child: Text('W', style: TextStyle(color: Colors.black))),
+          Positioned(
+              right: 2,
+              child: Text('E', style: TextStyle(color: Colors.black))),
+        ],
+      ),
     );
   }
 }

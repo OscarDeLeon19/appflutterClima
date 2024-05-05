@@ -144,7 +144,7 @@ class ClimaPage extends StatelessWidget {
 
   String _getAnimationPath(servidor.Clima clima) {
     double temp = double.tryParse(clima.temperatura) ?? 0;
-    return temp < 25 ? 'assets/dia-sol.json' : 'assets/weather-cloudy.json';
+    return temp > 25 ? 'assets/dia-sol.json' : 'assets/weather-cloudy.json';
   }
 
   String determineLocation(String url) {
