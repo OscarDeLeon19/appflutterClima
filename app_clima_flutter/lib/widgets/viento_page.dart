@@ -19,7 +19,7 @@ class HomePageViento extends StatelessWidget {
               hash: 'LpDL4tkCj[ofL4f6jZaeh}j[oefj'), // BlurHash para el fondo
           _buildWeatherInfo(context),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.1,
+            bottom: 30, // Mueve la posición hacia abajo
             left: 0,
             right: 0,
             child: FutureBuilder<Clima>(
@@ -62,17 +62,21 @@ class WindInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(7),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
+        color: const Color.fromARGB(255, 0, 0, 0)
+            .withOpacity(0.3), // Aumenta la transparencia
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('Datos del viento',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-          SizedBox(height: 20),
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
+          SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -88,9 +92,9 @@ class WindInfoPage extends StatelessWidget {
   Widget _buildWeatherIconData(IconData icon, String data) {
     return Column(
       children: [
-        Icon(icon, size: 24, color: Colors.blue),
+        Icon(icon, size: 24, color: Colors.white),
         SizedBox(height: 8),
-        Text(data, style: TextStyle(fontSize: 16)),
+        Text(data, style: TextStyle(fontSize: 16, color: Colors.white)),
       ],
     );
   }
@@ -114,19 +118,18 @@ class WindDirectionIndicator extends StatelessWidget {
           Transform.rotate(
             angle: rotationAngle,
             child: Icon(FontAwesomeIcons.locationArrow,
-                size: 48,
-                color: Colors.red), // Asegurando el uso del ícono correcto
+                size: 30, color: Colors.red),
           ),
           Positioned(
-              top: 2, child: Text('N', style: TextStyle(color: Colors.black))),
+              top: 2, child: Text('N', style: TextStyle(color: Colors.white))),
           Positioned(
               bottom: 2,
-              child: Text('S', style: TextStyle(color: Colors.black))),
+              child: Text('S', style: TextStyle(color: Colors.white))),
           Positioned(
-              left: 2, child: Text('W', style: TextStyle(color: Colors.black))),
+              left: 2, child: Text('W', style: TextStyle(color: Colors.white))),
           Positioned(
               right: 2,
-              child: Text('E', style: TextStyle(color: Colors.black))),
+              child: Text('E', style: TextStyle(color: Colors.white))),
         ],
       ),
     );
