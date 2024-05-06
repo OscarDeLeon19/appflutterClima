@@ -74,6 +74,7 @@ flutter:
     - assets/noche-conAire.json
     - assets/noche-lluviafuerte.json
     - assets/noche-pocalluvia.json
+    - assets/noche-normal.json
     - assets/nublado.json
     - assets/pocalluvia.json
     - assets/tierra.json

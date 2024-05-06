@@ -81,7 +81,7 @@ class WindInfoPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildWeatherIconData(FontAwesomeIcons.wind, '$velocidad km/h'),
-              WindDirectionIndicator(direccion: double.parse(direccion)),
+              WidgetBrujula(direccion: double.parse(direccion)),
             ],
           ),
         ],
@@ -100,10 +100,10 @@ class WindInfoPage extends StatelessWidget {
   }
 }
 
-class WindDirectionIndicator extends StatelessWidget {
+class WidgetBrujula extends StatelessWidget {
   final double direccion;
 
-  const WindDirectionIndicator({Key? key, required this.direccion})
+  const WidgetBrujula({Key? key, required this.direccion})
       : super(key: key);
 
   @override

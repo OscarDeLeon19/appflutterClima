@@ -13,7 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class SuelosPage extends StatefulWidget {
   final Future<servidor.Clima> futureClima;
 
-  const SuelosPage({Key? key, required this.futureClima}) : super(key: key);
+  SuelosPage({super.key, required this.futureClima});
 
   @override
   _SuelosPageState createState() => _SuelosPageState();
