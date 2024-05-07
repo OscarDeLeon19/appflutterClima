@@ -11,8 +11,9 @@ import 'package:lottie/lottie.dart';
 
 class ClimaPage extends StatelessWidget {
   final Future<servidor.Clima> futureClima;
+  final String url;
 
-  const ClimaPage({Key? key, required this.futureClima}) : super(key: key);
+  const ClimaPage({Key? key, required this.futureClima, required this.url}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class ClimaPage extends StatelessWidget {
         : Color.fromARGB(255, 7, 0, 19); // Color oscuro para la noche
 
     return BlocProvider(
-      create: (_) => ClimaBloc(futureClima)..add(FetchClima()),
+      create: (_) => ClimaBloc(futureClima,  url)..add(FetchClima()),
       child: Scaffold(
         backgroundColor: backgroundColor,
         extendBodyBehindAppBar: true,
@@ -87,7 +88,7 @@ class ClimaPage extends StatelessWidget {
                 fontSize: 48,
                 color: Colors.white,
                 fontWeight: FontWeight.bold)),
-        Text(DateFormat('EEEE dd MMMM yyyy, HH:mm').format(DateTime.now()),
+        Text(DateFormat('EEEE dd MMMM yyyy, HH:mm').format(DateTime.parse(clima.fechahora)),
             style: TextStyle(fontSize: 16, color: Colors.white)),
         Spacer(),
         Divider(color: Colors.white30),

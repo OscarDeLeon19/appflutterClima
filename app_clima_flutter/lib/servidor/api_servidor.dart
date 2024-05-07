@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<Clima> fetchClima() async {
+Future<Clima> fetchClima(String url) async {
   final response = await http.get(
-      Uri.parse('https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/Cantel'),
+      Uri.parse('https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/$url'),
       headers: {
         "Accept": "application/json",
         "Access-Control_Allow_Origin": "*"
@@ -13,7 +13,7 @@ Future<Clima> fetchClima() async {
 
   if (response.statusCode == 200) {
     return Clima.fromJson(jsonDecode(response.body) as dynamic,
-        'https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/Cunoc');
+        'https://cyt.cunoc.edu.gt/index.php/Ultimo-Registro/$url');
   } else {
     throw Exception('Failed to load Cat Fact');
   }

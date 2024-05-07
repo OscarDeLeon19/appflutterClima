@@ -27,14 +27,39 @@ class HomePage extends StatelessWidget {
         title: Text('AppClima Cunoc'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MenuPage()),
-            );
-          },
-          child: Text('Obtener Clima'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuPage("Cunoc")),
+                );
+              },
+              child: Text('Obtener Clima Cunoc'),
+            ),
+            SizedBox(height: 16), // Espacio entre los botones
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuPage("Cantel")),
+                );
+              },
+              child: Text('Obtener Clima Cantel'),
+            ),
+            SizedBox(height: 16), // Espacio entre los botones
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MenuPage("Conce")),
+                );
+              },
+              child: Text('Obtener CLima Conce'),
+            ),
+          ],
         ),
       ),
     );

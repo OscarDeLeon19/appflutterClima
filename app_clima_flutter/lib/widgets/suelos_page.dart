@@ -12,17 +12,23 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SuelosPage extends StatefulWidget {
   final Future<servidor.Clima> futureClima;
+  final String url;
 
-  SuelosPage({super.key, required this.futureClima});
+  SuelosPage({Key? key, required this.futureClima, required this.url}) : super(key: key);
 
   @override
-  _SuelosPageState createState() => _SuelosPageState();
+  _SuelosPageState createState() => _SuelosPageState(futureClima, url: url);
 }
 
 class _SuelosPageState extends State<SuelosPage> {
+  final String url;
+  final Future<servidor.Clima> futureClima; 
+  
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
+
+  _SuelosPageState(this.futureClima, {required this.url});
 
   @override
   void initState() {
@@ -47,14 +53,8 @@ class _SuelosPageState extends State<SuelosPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ClimaBloc(widget.futureClima)..add(FetchClima()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Datos de Suelos'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: BlocBuilder<ClimaBloc, ClimaState>(
+      create: (_) => ClimaBloc(futureClima, url)..add(FetchClima()),
+      child: BlocBuilder<ClimaBloc, ClimaState>(
           builder: (context, state) {
             if (state is ClimaLoading) {
               return Center(child: CircularProgressIndicator());
@@ -66,8 +66,7 @@ class _SuelosPageState extends State<SuelosPage> {
             return Center(child: Text("Cargando datos de suelos..."));
           },
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildSuelosDetails(BuildContext context, servidor.Clima clima) {

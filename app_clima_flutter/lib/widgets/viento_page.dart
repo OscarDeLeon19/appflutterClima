@@ -109,6 +109,8 @@ class WidgetBrujula extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double rotationAngle = direccion * (pi / 180);
+    double finalAngle = (6.28319 + 0.785398) - rotationAngle;
+
     return Container(
       width: 100,
       height: 100,
@@ -116,7 +118,7 @@ class WidgetBrujula extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Transform.rotate(
-            angle: rotationAngle,
+            angle: finalAngle,
             child: Icon(FontAwesomeIcons.locationArrow,
                 size: 30, color: Colors.red),
           ),
