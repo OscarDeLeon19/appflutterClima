@@ -14,7 +14,8 @@ class SuelosPage extends StatefulWidget {
   final Future<servidor.Clima> futureClima;
   final String url;
 
-  SuelosPage({Key? key, required this.futureClima, required this.url}) : super(key: key);
+  SuelosPage({Key? key, required this.futureClima, required this.url})
+      : super(key: key);
 
   @override
   _SuelosPageState createState() => _SuelosPageState(futureClima, url: url);
@@ -22,8 +23,12 @@ class SuelosPage extends StatefulWidget {
 
 class _SuelosPageState extends State<SuelosPage> {
   final String url;
-  final Future<servidor.Clima> futureClima; 
-  
+  final Future<servidor.Clima> futureClima;
+
+  Timer? _timer1;
+  Timer? _timer2;
+  Timer? _timer3;
+
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
@@ -33,21 +38,35 @@ class _SuelosPageState extends State<SuelosPage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 500), () {
-      setState(() {
-        opacity1 = 1.0;
-      });
-      Timer(Duration(milliseconds: 500), () {
+    _timer1 = Timer(Duration(milliseconds: 500), () {
+      if (mounted) {
         setState(() {
-          opacity2 = 1.0;
+          opacity1 = 1.0;
         });
-        Timer(Duration(milliseconds: 500), () {
+      }
+      _timer2 = Timer(Duration(milliseconds: 500), () {
+        if (mounted) {
           setState(() {
-            opacity3 = 1.0;
+            opacity2 = 1.0;
           });
+        }
+        _timer3 = Timer(Duration(milliseconds: 500), () {
+          if (mounted) {
+            setState(() {
+              opacity3 = 1.0;
+            });
+          }
         });
       });
     });
+  }
+
+  @override
+  void dispose() {
+    _timer1?.cancel();
+    _timer2?.cancel();
+    _timer3?.cancel();
+    super.dispose();
   }
 
   @override
@@ -55,18 +74,18 @@ class _SuelosPageState extends State<SuelosPage> {
     return BlocProvider(
       create: (_) => ClimaBloc(futureClima, url)..add(FetchClima()),
       child: BlocBuilder<ClimaBloc, ClimaState>(
-          builder: (context, state) {
-            if (state is ClimaLoading) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state is ClimaLoaded) {
-              return _buildSuelosDetails(context, state.clima);
-            } else if (state is ClimaError) {
-              return Center(child: Text(state.message));
-            }
-            return Center(child: Text("Cargando datos de suelos..."));
-          },
-        ),
-      );
+        builder: (context, state) {
+          if (state is ClimaLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is ClimaLoaded) {
+            return _buildSuelosDetails(context, state.clima);
+          } else if (state is ClimaError) {
+            return Center(child: Text(state.message));
+          }
+          return Center(child: Text("Cargando datos de suelos..."));
+        },
+      ),
+    );
   }
 
   Widget _buildSuelosDetails(BuildContext context, servidor.Clima clima) {

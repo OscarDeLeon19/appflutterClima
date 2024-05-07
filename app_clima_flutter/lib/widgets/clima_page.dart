@@ -13,7 +13,8 @@ class ClimaPage extends StatelessWidget {
   final Future<servidor.Clima> futureClima;
   final String url;
 
-  const ClimaPage({Key? key, required this.futureClima, required this.url}) : super(key: key);
+  const ClimaPage({Key? key, required this.futureClima, required this.url})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +25,10 @@ class ClimaPage extends StatelessWidget {
         : Color.fromARGB(255, 7, 0, 19); // Color oscuro para la noche
 
     return BlocProvider(
-      create: (_) => ClimaBloc(futureClima,  url)..add(FetchClima()),
+      create: (_) => ClimaBloc(futureClima, url)..add(FetchClima()),
       child: Scaffold(
         backgroundColor: backgroundColor,
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
-        ),
         body: BlocBuilder<ClimaBloc, ClimaState>(
           builder: (context, state) {
             if (state is ClimaLoading) {
@@ -88,7 +83,9 @@ class ClimaPage extends StatelessWidget {
                 fontSize: 48,
                 color: Colors.white,
                 fontWeight: FontWeight.bold)),
-        Text(DateFormat('EEEE dd MMMM yyyy, HH:mm').format(DateTime.parse(clima.fechahora)),
+        Text(
+            DateFormat('EEEE dd MMMM yyyy, HH:mm')
+                .format(DateTime.parse(clima.fechahora)),
             style: TextStyle(fontSize: 16, color: Colors.white)),
         Spacer(),
         Divider(color: Colors.white30),
