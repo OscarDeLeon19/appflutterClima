@@ -52,8 +52,7 @@ class ClimaPage extends StatelessWidget {
 
   Widget _buildWeatherDetails(BuildContext context, servidor.Clima clima) {
     double temp = double.tryParse(clima.temperatura) ?? 0;
-    String formattedTemp =
-        temp.toStringAsFixed(2); // Formatea la temperatura a dos decimales
+    String formattedTemp = temp.toStringAsFixed(2);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,9 +61,12 @@ class ClimaPage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: EdgeInsets.only(top: 150.0),
+            ),
             Icon(Icons.location_on, color: Color.fromARGB(255, 255, 255, 255)),
-            SizedBox(width: 5), // Espacio entre icono y texto
-            Text('CUNOC',
+            SizedBox(width: 5),
+            Text(determineLocation(url),
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
@@ -87,25 +89,67 @@ class ClimaPage extends StatelessWidget {
             DateFormat('EEEE dd MMMM yyyy, HH:mm')
                 .format(DateTime.parse(clima.fechahora)),
             style: TextStyle(fontSize: 16, color: Colors.white)),
-        Spacer(),
-        Divider(color: Colors.white30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildWeatherInfo('Humedad', '${clima.humedad}%', Icons.water_drop),
-            _buildWeatherInfo(
-                'Radiación', '${clima.radiacion}', Icons.wb_sunny),
-          ],
+        //Spacer(flex: 1),
+        // Divider(color: Colors.white30),
+        // Row(
+
+        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //   children: [
+        //     _buildWeatherInfo('Humedad', '${clima.humedad}%', Icons.water_drop),
+        //     _buildWeatherInfo(
+        //         'Radiación', '${clima.radiacion}', Icons.wb_sunny),
+        //   ],
+        // ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //   children: [
+        //     _buildWeatherInfo(
+        //         'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
+        //     _buildWeatherInfo(
+        //         'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
+        //   ],
+        // )
+        Padding(
+          padding: EdgeInsets.only(top: 150),
+          child: Container(
+          padding: EdgeInsets.all(7),
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+              borderRadius: BorderRadius.circular(20)),
+          child: 
+          Column(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Datos del clima',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildWeatherInfo(
+                      'Humedad', '${clima.humedad}%', Icons.water_drop),
+                  _buildWeatherInfo(
+                      'Radiación', '${clima.radiacion}', Icons.wb_sunny),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildWeatherInfo(
+                      'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
+                  _buildWeatherInfo(
+                      'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
+                ],
+              )
+            ]
+          ),
+        )
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildWeatherInfo(
-                'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
-            _buildWeatherInfo(
-                'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
-          ],
-        ),
+        
       ],
     );
   }
