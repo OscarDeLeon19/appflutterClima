@@ -38,15 +38,32 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menu', style: TextStyle(color: Colors.white)),
+        title: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 150.0),
+            ),
+            Icon(Icons.location_on, color: Color.fromARGB(255, 255, 255, 255)),
+            SizedBox(width: 5),
+            Text(determineLocation(url),
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        iconTheme: IconThemeData(
+          color:
+              Colors.white, // Cambia el color de la flecha de regreso a blanco
+        ),
       ),
       extendBodyBehindAppBar: true,
-      body: _buildBody(url), // Ajusta directamente el contenido del cuerpo
+      body: _buildBody(url),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Menu'),
           BottomNavigationBarItem(icon: Icon(Icons.air), label: 'Viento'),
           BottomNavigationBarItem(icon: Icon(Icons.wb_sunny), label: 'Clima'),
           BottomNavigationBarItem(icon: Icon(Icons.grass), label: 'Suelos')
@@ -55,9 +72,9 @@ class _MenuPageState extends State<MenuPage> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.white70,
         onTap: _onItemTapped,
-        backgroundColor: Colors.grey[900], // Fondo de barra sólido más oscuro
+        backgroundColor: Colors.grey[900],
         type: BottomNavigationBarType.fixed,
-        elevation: 0, // Elimina cualquier sombra
+        elevation: 0,
       ),
     );
   }
@@ -74,6 +91,18 @@ class _MenuPageState extends State<MenuPage> {
         return SuelosPage(futureClima: futureClima, url: url);
       default:
         return Container();
+    }
+  }
+
+  String determineLocation(String url) {
+    if (url.endsWith('Cunoc')) {
+      return 'Cunoc';
+    } else if (url.endsWith('Cantel')) {
+      return 'Cantel';
+    } else if (url.endsWith('Conce')) {
+      return 'Concepción';
+    } else {
+      return 'Desconocida';
     }
   }
 }

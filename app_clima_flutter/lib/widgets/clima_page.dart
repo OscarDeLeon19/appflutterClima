@@ -21,8 +21,8 @@ class ClimaPage extends StatelessWidget {
     // Determinar si es de día o de noche
     bool isDayTime = DateTime.now().hour >= 6 && DateTime.now().hour < 20;
     Color backgroundColor = isDayTime
-        ? const Color.fromARGB(255, 95, 202, 252) // Color claro para el día
-        : Color.fromARGB(255, 7, 0, 19); // Color oscuro para la noche
+        ? const Color.fromARGB(255, 95, 202, 252)
+        : Color.fromARGB(255, 7, 0, 19);
 
     return BlocProvider(
       create: (_) => ClimaBloc(futureClima, url)..add(FetchClima()),
@@ -58,7 +58,7 @@ class ClimaPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
+        /* Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
@@ -72,7 +72,7 @@ class ClimaPage extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.bold)),
           ],
-        ),
+        ),*/
         Lottie.asset(
           _getAnimationPath(clima),
           width: 300,
@@ -80,7 +80,7 @@ class ClimaPage extends StatelessWidget {
           fit: BoxFit.fill,
         ),
         const SizedBox(height: 20),
-        Text('$formattedTemp°C', // Muestra la temperatura formateada
+        Text('$formattedTemp°C',
             style: TextStyle(
                 fontSize: 48,
                 color: Colors.white,
@@ -88,7 +88,7 @@ class ClimaPage extends StatelessWidget {
         Text(
             DateFormat('EEEE dd MMMM yyyy, HH:mm')
                 .format(DateTime.parse(clima.fechahora)),
-            style: TextStyle(fontSize: 16, color: Colors.white)),
+            style: TextStyle(fontSize: 12, color: Colors.white)),
         //Spacer(flex: 1),
         // Divider(color: Colors.white30),
         // Row(
@@ -110,46 +110,43 @@ class ClimaPage extends StatelessWidget {
         //   ],
         // )
         Padding(
-          padding: EdgeInsets.only(top: 150),
-          child: Container(
-          padding: EdgeInsets.all(7),
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
-              borderRadius: BorderRadius.circular(20)),
-          child: 
-          Column(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Datos del clima',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildWeatherInfo(
-                      'Humedad', '${clima.humedad}%', Icons.water_drop),
-                  _buildWeatherInfo(
-                      'Radiación', '${clima.radiacion}', Icons.wb_sunny),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildWeatherInfo(
-                      'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
-                  _buildWeatherInfo(
-                      'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
-                ],
-              )
-            ]
-          ),
-        )
-        ),
-        
+            padding: EdgeInsets.only(top: 0),
+            child: Container(
+              padding: EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(2)),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Datos del clima',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildWeatherInfo(
+                            'Humedad', '${clima.humedad}%', Icons.water_drop),
+                        _buildWeatherInfo(
+                            'Radiación', '${clima.radiacion}', Icons.wb_sunny),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildWeatherInfo(
+                            'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
+                        _buildWeatherInfo('Temp Mín', '$formattedTemp°C',
+                            Icons.arrow_downward),
+                      ],
+                    )
+                  ]),
+            )),
       ],
     );
   }
@@ -172,7 +169,7 @@ class ClimaPage extends StatelessWidget {
   Widget _buildWeatherInfo(String title, String value, IconData icon) {
     return Column(
       children: [
-        Icon(icon, color: Colors.white, size: 20),
+        Icon(icon, color: Colors.white, size: 14),
         SizedBox(height: 4),
         Text(title, style: TextStyle(color: Colors.white, fontSize: 14)),
         Text(value,
@@ -186,16 +183,11 @@ class ClimaPage extends StatelessWidget {
 
   String _getAnimationPath(servidor.Clima clima) {
     String climaJson = "";
-    // Convertir la cadena de hora en un objeto DateTime
     DateTime horaDateTime = DateTime.parse(clima.fechahora);
-
-    // Definir el rango de horas permitido
     DateTime horaInicio = DateTime(horaDateTime.year, horaDateTime.month,
         horaDateTime.day, 6, 0); // 6:00 am
     DateTime horaFin = DateTime(horaDateTime.year, horaDateTime.month,
         horaDateTime.day, 19, 0); // 7:00 pm
-
-    // Verificar si la hora está dentro del rango
     if (horaDateTime.isAfter(horaInicio) && horaDateTime.isBefore(horaFin)) {
       if (double.parse(clima.radiacion) > 70.0) {
         if (double.parse(clima.velocidad) > 0.40) {
@@ -229,17 +221,5 @@ class ClimaPage extends StatelessWidget {
     }
 
     return climaJson;
-  }
-
-  String determineLocation(String url) {
-    if (url.endsWith('Cunoc')) {
-      return 'Cunoc';
-    } else if (url.endsWith('Cantel')) {
-      return 'Cantel';
-    } else if (url.endsWith('Conce')) {
-      return 'Concepción';
-    } else {
-      return 'Desconocida';
-    }
   }
 }
