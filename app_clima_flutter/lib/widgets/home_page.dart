@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import '../servidor/api_servidor.dart'; // Asegúrate de que la ruta sea correcta
-import 'package:flutter_blurhash/flutter_blurhash.dart'; // Asegúrate de agregar flutter_blurhash a tu pubspec.yaml
+import '../servidor/api_servidor.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 
 class HomePageClima extends StatelessWidget {
   final Future<Clima> futureClima;
@@ -42,7 +42,7 @@ class HomePageClima extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                        speed: Duration(milliseconds: 50),
+                        speed: Duration(milliseconds: 20),
                       ),
                     ],
                   ),
@@ -76,7 +76,7 @@ class HomePageClima extends StatelessWidget {
                       ],
                     );
                   } else {
-                    return SizedBox(); // Muestra un contenedor vacío si no hay datos
+                    return SizedBox();
                   }
                 },
               ),

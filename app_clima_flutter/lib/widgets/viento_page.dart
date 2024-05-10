@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../servidor/api_servidor.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Importación correcta
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePageViento extends StatelessWidget {
   final Future<Clima> futureClima;
@@ -15,11 +15,10 @@ class HomePageViento extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          BlurHash(
-              hash: 'LpDL4tkCj[ofL4f6jZaeh}j[oefj'), // BlurHash para el fondo
+          BlurHash(hash: 'LpDL4tkCj[ofL4f6jZaeh}j[oefj'),
           _buildWeatherInfo(context),
           Positioned(
-            bottom: 30, // Mueve la posición hacia abajo
+            bottom: 30,
             left: 0,
             right: 0,
             child: FutureBuilder<Clima>(
@@ -64,8 +63,7 @@ class WindInfoPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(7),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 0, 0, 0)
-            .withOpacity(0.3), // Aumenta la transparencia
+        color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -103,8 +101,7 @@ class WindInfoPage extends StatelessWidget {
 class WidgetBrujula extends StatelessWidget {
   final double direccion;
 
-  const WidgetBrujula({Key? key, required this.direccion})
-      : super(key: key);
+  const WidgetBrujula({Key? key, required this.direccion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
