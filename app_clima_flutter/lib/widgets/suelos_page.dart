@@ -97,7 +97,7 @@ class _SuelosPageState extends State<SuelosPage> {
           child: Lottie.asset('assets/tierra.json', width: 300, height: 300),
         ),
         Positioned(
-          bottom: 50,
+          bottom: 30,
           left: 0,
           right: 0,
           child: Container(

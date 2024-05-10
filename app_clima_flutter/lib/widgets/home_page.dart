@@ -58,7 +58,7 @@ class HomePageClima extends StatelessWidget {
             child: Container(
               color: Colors
                   .black54, // Semi-transparente para contrastar con el texto
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(5),
               child: FutureBuilder<Clima>(
                 future: futureClima,
                 builder: (context, snapshot) {
@@ -66,12 +66,12 @@ class HomePageClima extends StatelessWidget {
                     return Column(
                       children: [
                         Text(
-                          'Última vez que se hizo una medición',
-                          style: TextStyle(fontSize: 14, color: Colors.white70),
+                          'Última medición',
+                          style: TextStyle(fontSize: 15, color: Colors.white70),
                         ),
                         Text(
                           'Fecha y Hora: ${snapshot.data!.fechahora}',
-                          style: TextStyle(fontSize: 12, color: Colors.white70),
+                          style: TextStyle(fontSize: 13, color: Colors.white70),
                         ),
                       ],
                     );

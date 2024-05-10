@@ -58,21 +58,6 @@ class ClimaPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        /* Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 150.0),
-            ),
-            Icon(Icons.location_on, color: Color.fromARGB(255, 255, 255, 255)),
-            SizedBox(width: 5),
-            Text(determineLocation(url),
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold)),
-          ],
-        ),*/
         Lottie.asset(
           _getAnimationPath(clima),
           width: 300,
@@ -86,67 +71,50 @@ class ClimaPage extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.bold)),
         Text(
-            DateFormat('EEEE dd MMMM yyyy, HH:mm')
+            DateFormat('EEEE dd MMMM yyyy, HH:mm', 'es')
                 .format(DateTime.parse(clima.fechahora)),
-            style: TextStyle(fontSize: 12, color: Colors.white)),
-        //Spacer(flex: 1),
-        // Divider(color: Colors.white30),
-        // Row(
-
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //     _buildWeatherInfo('Humedad', '${clima.humedad}%', Icons.water_drop),
-        //     _buildWeatherInfo(
-        //         'Radiación', '${clima.radiacion}', Icons.wb_sunny),
-        //   ],
-        // ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //   children: [
-        //     _buildWeatherInfo(
-        //         'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
-        //     _buildWeatherInfo(
-        //         'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
-        //   ],
-        // )
-        Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Container(
-              padding: EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(2)),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Datos del clima',
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildWeatherInfo(
-                            'Humedad', '${clima.humedad}%', Icons.water_drop),
-                        _buildWeatherInfo(
-                            'Radiación', '${clima.radiacion}', Icons.wb_sunny),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildWeatherInfo(
-                            'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
-                        _buildWeatherInfo('Temp Mín', '$formattedTemp°C',
-                            Icons.arrow_downward),
-                      ],
-                    )
-                  ]),
-            )),
+            style: TextStyle(fontSize: 17, color: Colors.white)),
+        Spacer(),
+        AnimatedOpacity(
+          opacity: 1.0,
+          duration: Duration(milliseconds: 500),
+          child: Container(
+            margin: EdgeInsets.only(bottom: 30),
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                borderRadius: BorderRadius.circular(20)),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                'Datos del clima',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildWeatherInfo(
+                      'Humedad', '${clima.humedad}%', Icons.water_drop),
+                  _buildWeatherInfo(
+                      'Radiación', '${clima.radiacion}', Icons.wb_sunny),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildWeatherInfo(
+                      'Temp Máx', '$formattedTemp°C', Icons.arrow_upward),
+                  _buildWeatherInfo(
+                      'Temp Mín', '$formattedTemp°C', Icons.arrow_downward),
+                ],
+              )
+            ]),
+          ),
+        ),
       ],
     );
   }

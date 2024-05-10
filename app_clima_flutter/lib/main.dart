@@ -1,10 +1,17 @@
-import 'dart:ui';
+import 'dart:ui' show Brightness, FontWeight, ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'servidor/api_servidor.dart';
+import 'package:app_clima_flutter/bloc/clima_bloc.dart';
+import 'package:app_clima_flutter/bloc/clima_event.dart';
+import 'package:app_clima_flutter/bloc/clima_state.dart';
+import 'package:app_clima_flutter/servidor/api_servidor.dart' as servidor;
+import 'package:intl/intl.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lottie/lottie.dart';
 import 'widgets/principal.dart';
 
 void main() {
+  Intl.defaultLocale = 'es_ES';
   runApp(MyApp());
 }
 
@@ -13,6 +20,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AppClima',
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('es', 'ES'), // Español
+        const Locale('en', 'US'), // Inglés
+      ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -75,7 +91,9 @@ class HomePage extends StatelessWidget {
                   child: Text('Busca información de:',
                       style: TextStyle(fontSize: 24, color: Colors.white)),
                 ),
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.school), // Icon for "Clima Cunoc"
+                  label: Text('Clima Cunoc'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -83,10 +101,11 @@ class HomePage extends StatelessWidget {
                           builder: (context) => MenuPage("Cunoc")),
                     );
                   },
-                  child: Text('Clima Cunoc'),
                 ),
                 SizedBox(height: 16),
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.pattern), // Icon for "Clima Cantel"
+                  label: Text('Clima Cantel'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -94,10 +113,11 @@ class HomePage extends StatelessWidget {
                           builder: (context) => MenuPage("Cantel")),
                     );
                   },
-                  child: Text('Clima Cantel'),
                 ),
                 SizedBox(height: 16),
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: Icon(Icons.church), // Icon for "Clima Conce"
+                  label: Text('Clima Conce'),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -105,7 +125,6 @@ class HomePage extends StatelessWidget {
                           builder: (context) => MenuPage("Conce")),
                     );
                   },
-                  child: Text('Clima Conce'),
                 ),
               ],
             ),
